@@ -1,0 +1,518 @@
+:root {
+  --gold: #ffd700;
+  --gold2: #ffe680;
+  --navy: #001943;
+  --blue: #0033a1;
+  --panel: #07183b;
+  --red: #ff5a3c;
+  --green: #19d67b;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font: 16px Arial, sans-serif;
+  background: var(--blue);
+  color: #fff;
+}
+#inputArea {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--gold), #f3bf1a);
+  box-shadow: 0 2px 14px #0008;
+  z-index: 10;
+}
+#postcodeInput,
+#postcodeList,
+button,
+#server,
+#customServer {
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+#postcodeInput,
+#postcodeList,
+#server,
+#customServer {
+  border: 2px solid var(--navy);
+  color: var(--blue);
+  background: #fff;
+  outline: 0;
+}
+#postcodeInput:focus,
+#postcodeList:focus,
+#server:focus,
+#customServer:focus {
+  box-shadow: 0 0 0 3px #00194355;
+}
+button {
+  cursor: pointer;
+  border: 0;
+  font-weight: 700;
+  background: var(--navy);
+  color: var(--gold);
+  transition: 0.2s;
+}
+button:hover {
+  background: #002a73;
+  transform: translateY(-1px);
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+button.active {
+  background: var(--gold2);
+  color: var(--navy);
+  box-shadow: inset 0 0 0 2px var(--navy);
+}
+#config {
+  position: relative;
+  background: var(--navy);
+  border-radius: 8px;
+  color: var(--gold);
+}
+#config summary {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+  user-select: none;
+}
+#config summary::-webkit-details-marker {
+  display: none;
+}
+#config summary:before {
+  content: "▶";
+  display: inline-block;
+  margin-right: 6px;
+  font-size: 10px;
+  transition: 0.15s;
+}
+#config[open] summary:before {
+  transform: rotate(90deg);
+}
+.cfg {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  display: grid;
+  gap: 8px;
+  width: min(300px, calc(100vw - 16px));
+  padding: 11px;
+  background: var(--panel);
+  border: 2px solid var(--gold);
+  border-radius: 10px;
+  box-shadow: 0 8px 22px #0008;
+  z-index: 30;
+}
+.cfg label {
+  color: var(--gold2);
+  font-size: 12px;
+  font-weight: 700;
+}
+.cfg #server,
+.cfg #customServer {
+  width: 100%;
+  padding: 8px;
+  font-size: 13px;
+}
+#customServerFields {
+  display: grid;
+  gap: 6px;
+}
+#customServerFields[hidden] {
+  display: none;
+}
+.cfgLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3px;
+}
+.cfgLabel span {
+  color: #fff;
+  font: 12px ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+#cpOpacity {
+  width: 100%;
+  height: 22px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+#map {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  background: #fff;
+}
+#map .gray-base-layer {
+  filter: grayscale(1);
+  opacity: 0.58;
+}
+#map .ol-viewport.blur .ol-layer canvas {
+  filter: blur(4px);
+}
+#map .ol-viewport .ol-layer canvas {
+  transition: filter 0.35s;
+}
+#map .ol-control {
+  background: var(--navy);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px #0008;
+}
+#map .ol-control:hover {
+  background: #002a73;
+}
+#map .ol-control button {
+  display: block;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin: 1px;
+  border-radius: 3px;
+  background: var(--navy);
+  color: var(--gold);
+  font-size: 19px;
+  transform: none;
+}
+#map .ol-control button:hover {
+  background: #002a73;
+  transform: none;
+}
+#map .ol-attribution {
+  background: #001943e8;
+  color: #fff;
+}
+#map .ol-attribution ul {
+  color: #fff;
+  font-size: 11px;
+  text-shadow: none;
+}
+#map .ol-attribution a {
+  color: var(--gold2);
+}
+.custom-popup {
+  position: relative;
+  max-width: min(440px, 92vw);
+  padding: 12px;
+  background: var(--panel);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  box-shadow: 0 0 18px #000;
+  color: #fff;
+}
+.custom-popup::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -9px;
+  border: 9px solid transparent;
+  border-top-color: var(--gold);
+}
+.custom-popup-close {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  color: var(--gold);
+  font-size: 18px;
+  transform: none;
+  z-index: 1;
+}
+.custom-popup-close:hover {
+  background: #002a73;
+  transform: none;
+}
+.custom-popup .popup-title {
+  padding-right: 28px;
+}
+.popup-container {
+  width: min(420px, 78vw);
+  font-size: 14px;
+  line-height: 1.4;
+  color: #fff;
+}
+.popup-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--gold);
+}
+.popup-table {
+  max-height: 230px;
+  overflow: auto;
+  border: 1px solid #ffd70077;
+  border-radius: 10px;
+  background: #00102a;
+}
+.popup-table table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.popup-table tr:nth-child(even) {
+  background: #ffd7000f;
+}
+.popup-table td {
+  padding: 7px 9px;
+  border-top: 1px solid #ffd70033;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.popup-table tr:first-child td {
+  border-top: 0;
+}
+.popup-table td:first-child {
+  width: 38%;
+  font-weight: 800;
+  color: var(--gold2);
+}
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+.popup-buttons a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  text-decoration: none;
+  background: var(--gold);
+  color: var(--navy);
+  box-shadow: 0 0 8px #000;
+  transition: 0.18s;
+}
+.popup-buttons a:hover {
+  transform: scale(1.16);
+  background: var(--gold2);
+}
+.cp-tip {
+  padding: 4px 7px;
+  background: var(--navy);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  color: var(--gold);
+  font-weight: 800;
+  box-shadow: 0 2px 8px #0008;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#legend {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  max-height: calc(100% - 24px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: max-content;
+  max-width: min(360px, 86vw);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  background: #07183bf2;
+  color: #fff;
+  box-shadow: 0 0 14px #000;
+  z-index: 5;
+  overflow: hidden;
+}
+#legendTitle {
+  display: block;
+  flex: 0 0 auto;
+  font-weight: 800;
+  font-size: 18px;
+  background: var(--navy);
+  color: var(--gold);
+  padding: 9px 12px;
+  text-align: center;
+  border-bottom: 2px solid var(--gold);
+  cursor: pointer;
+}
+#legendTitle:hover {
+  background: #002a73;
+}
+#legendList {
+  list-style: none;
+  min-height: 0;
+  overflow: auto;
+  padding: 6px 10px 8px;
+}
+#legendList li {
+  cursor: pointer;
+  padding: 6px 4px;
+  border-bottom: 1px solid #ffd70055;
+  white-space: nowrap;
+  font-size: 14px;
+}
+#legendList li:hover {
+  background: var(--gold);
+  color: var(--navy);
+}
+#legendList li.active {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 800;
+}
+.ov[hidden] {
+  display: none !important;
+}
+.ov {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000b;
+  z-index: 3000;
+  padding: 18px;
+}
+.ovBox {
+  position: relative;
+  width: min(700px, 94vw);
+  max-height: min(540px, 88vh);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  background: var(--panel);
+  color: var(--gold2);
+  box-shadow: 0 0 28px #000;
+  font: 14px ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+.ovHead {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-right: 38px;
+  color: var(--gold);
+  font: 800 16px Arial;
+}
+#ovLog {
+  min-height: 130px;
+  max-height: 380px;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  line-height: 1.45;
+  color: #fff;
+  background: #00102a;
+  border: 1px solid #ffd70073;
+  border-radius: 10px;
+  padding: 12px;
+}
+#ovLog div {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+#ovLog .bad {
+  color: #ff9b88;
+}
+#ovLog .status {
+  color: var(--gold2);
+}
+.ovBox > button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 900;
+}
+#qMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  display: grid;
+  place-items: center;
+  background: #000b;
+}
+.qBox {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  padding: 20px;
+  background: var(--panel);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  box-shadow: 0 0 18px #000;
+}
+.qLabel {
+  font-weight: 700;
+  color: var(--gold);
+}
+.qRow {
+  display: flex;
+  gap: 20px;
+}
+.qRow button {
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 28px;
+  background: var(--gold);
+  color: var(--navy);
+}
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-thumb {
+  background: #31538f;
+  border-radius: 10px;
+}
+@media (max-width: 760px) {
+  #inputArea {
+    gap: 6px;
+    padding: 7px;
+  }
+  #postcodeInput,
+  #postcodeList,
+  button,
+  #server,
+  #customServer {
+    font-size: 14px;
+    padding: 8px;
+  }
+  #config summary {
+    padding: 8px;
+  }
+  .popup-container {
+    width: min(360px, 80vw);
+  }
+}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CPcheckES</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@10.11.0/ol.css">
+<link rel="stylesheet" href="./style.css">
+<script defer src="https://cdn.jsdelivr.net/npm/ol@10.11.0/dist/ol.js"></script>
+</head>
+<body>
+<div id="inputArea">
+  <input id="postcodeInput" placeholder="Código Postal 🇪🇸" autocomplete="postal-code" inputmode="numeric">
+  <select id="postcodeList" hidden>
+    <option value="">Elige CP</option>
+  </select>
+  <button id="btnConsultarMapa" type="button" title="Cargar los datos del CP elegido">Consultar</button>
+  <button id="btnVerOverpassTurbo" type="button" title="Ver los datos en OverpassTurbo">OverpassTurbo</button>
+  <button id="btnLazo" type="button" title="Seleccionar en el mapa solo los CP elegidos en la leyenda">Lazo</button>
+  <button id="btnListadoCP" type="button" title="Listar y contar CP de OSM en España; comparar con Callejero Censo Electoral + CartoCiudad; marcar 🚫 los no coincidentes y 🏛️ los institucionales; acepta multivalores solo si todos son válidos">Listar todos</button>
+  <button id="btnInfoExtra" type="button" title="Obtener info extra en un punto">InfoExtra</button>
+  <details id="config">
+    <summary>⚙️ Configuración</summary>
+    <div class="cfg">
+      <label for="server">Motor de consultas</label>
+      <select id="server">
+        <option value="de">Overpass — Alemania</option>
+        <option value="custom">Overpass — Personalizado</option>
+        <option value="postpass">Postpass — Geofabrik</option>
+      </select>
+      <div id="customServerFields" hidden>
+        <label for="customServer">URL de Overpass (base o /interpreter)</label>
+        <input id="customServer" type="url" placeholder="https://overpass.nextgis.com/TU_CLAVE/api/" spellcheck="false" autocomplete="off">
+      </div>
+      <div class="cfgLabel">
+        <label for="cpOpacity">Opacidad CP</label>
+        <span id="cpOpacityValue">100 %</span>
+      </div>
+      <input id="cpOpacity" type="range" min="0" max="100" step="5" value="100">
+    </div>
+  </details>
+</div>
+<div id="map">
+  <div id="legend">
+    <span id="legendTitle" tabindex="0"></span>
+    <ul id="legendList"></ul>
+  </div>
+</div>
+<div id="loadingOverlay" class="ov" hidden>
+  <div class="ovBox">
+    <button id="ovX" type="button" title="Cerrar">✕</button>
+    <div class="ovHead"><span>📫</span><b id="ovTitle">Proceso</b></div>
+    <div id="ovLog"></div>
+  </div>
+</div>
+<script defer src="./app.js"></script>
+</body>
+</html>
